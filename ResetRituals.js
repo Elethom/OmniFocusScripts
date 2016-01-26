@@ -1,19 +1,9 @@
 of = Library('OmniFocus')
 weekStartFromMonday = true
+msPerDay = 86400000
 
-dailyTasks = of.tasksWithContext('Daily')
-dailyTasks.forEach(function(task) {
-    dueDate = task.dueDate()
-    date = new Date
-    if (dueDate.getFullYear() < date.getFullYear() ||
-        (dueDate.getFullYear() === date.getFullYear() && dueDate.getMonth() < date.getMonth()) ||
-        (dueDate.getFullYear() === date.getFullYear() && dueDate.getMonth() === date.getMonth() && dueDate.getDate() < date.getDate())) {
-        date.setHours(task.dueDate().getHours())
-        date.setMinutes(task.dueDate().getMinutes())
-        task.dueDate = date
-        task.completed = false
-    }
-})
+/** Same thing as the Date one. Makes dayOfWeek happy. */
+Number.prototype.getDay = function(){ return Math.floor(this / 86400000 + 4) % 7; }
 
 function dayOfWeek(date) {
     if (weekStartFromMonday) {
@@ -22,21 +12,25 @@ function dayOfWeek(date) {
         return date.getDay()
     }
 }
+
+today = Date.now() /* Number */
+today = today - today % msPerDay
+dailyTasks = of.tasksWithContext('Daily')
+dailyTasks.forEach(function(task) {
+    dueDate2 = task.dueDate - task.dueDate % msPerDay
+    if (dueDate2 < today) {
+        task.dueDate = Date(today + task.dueDate % msPerDay)
+        task.completed = false
+    }
+})
+
+console.log("Today: " + dayOfWeek(today)) /* debug */
+thisWeek = today - dayOfWeek(today) * msPerDay
 weeklyTasks = of.tasksWithContext('Weekly')
 weeklyTasks.forEach(function(task) {
-    dueDate = task.dueDate()
-    date = new Date
-    dueDay = dayOfWeek(dueDate)
-    console.log(dayOfWeek(date))
-    dueDate.setDate(dueDate.getDate() - dueDay)
-    date.setDate(date.getDate() - dayOfWeek(date))
-    if (dueDate.getFullYear() < date.getFullYear() ||
-        (dueDate.getFullYear() === date.getFullYear() && dueDate.getMonth() < date.getMonth()) ||
-        (dueDate.getFullYear() === date.getFullYear() && dueDate.getMonth() === date.getMonth() && dueDate.getDate() < date.getDate())) {
-        date.setDate(date.getDate() + dueDay)
-        date.setHours(dueDate.getHours())
-        date.setMinutes(dueDate.getMinutes())
-        task.dueDate = date
+    dueDate2 = task.dueDate - task.dueDate % msPerDay
+    if (dueDate2 - dayOfWeek(dueDate2) * msPerDay < thisWeek) {
+        task.dueDate = Date(thisWeek + task.dueDate % msPerDay + dayOfWeek(dueDate2) * msPerDay)
         task.completed = false
     }
 })
