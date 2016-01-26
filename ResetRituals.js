@@ -24,7 +24,7 @@ dailyTasks.forEach(function(task) {
     }
 })
 
-console.log("Today: " + dayOfWeek(date)) /* debug */
+console.log("Today: " + dayOfWeek(today)) /* debug */
 thisWeek = today - dayOfWeek(today) * msPerDay
 weeklyTasks = of.tasksWithContext('Weekly')
 weeklyTasks.forEach(function(task) {
