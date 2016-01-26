@@ -5,7 +5,7 @@ msPerDay = 86400000
 /** Same thing as the Date one. Makes dayOfWeek happy. */
 Number.prototype.getDay = function(){ return Math.floor(this / 86400000 + 4) % 7; }
 
-function dayOfWeek(date_) {
+function dayOfWeek(date) {
     if (weekStartFromMonday) {
         return (date.getDay() + 6) % 7
     } else {
