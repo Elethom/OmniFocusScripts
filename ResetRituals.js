@@ -4,6 +4,7 @@ weekStartFromMonday = true
 dailyTasks = of.tasksWithContext('Daily')
 dailyTasks.forEach(function(task) {
     dueDate = task.dueDate()
+    if (dueDate === null) return
     date = new Date
     if (dueDate.getFullYear() < date.getFullYear() ||
         (dueDate.getFullYear() === date.getFullYear() && dueDate.getMonth() < date.getMonth()) ||
@@ -25,6 +26,7 @@ function dayOfWeek(date) {
 weeklyTasks = of.tasksWithContext('Weekly')
 weeklyTasks.forEach(function(task) {
     dueDate = task.dueDate()
+    if (dueDate === null) return
     date = new Date
     dueDay = dayOfWeek(dueDate)
     console.log(dayOfWeek(date))
@@ -44,6 +46,7 @@ weeklyTasks.forEach(function(task) {
 monthlyTasks = of.tasksWithContext('Monthly')
 monthlyTasks.forEach(function(task) {
     dueDate = task.dueDate()
+    if (dueDate === null) return
     date = new Date
     if (dueDate.getFullYear() < date.getFullYear() ||
         (dueDate.getFullYear() === date.getFullYear() && dueDate.getMonth() < date.getMonth())) {
@@ -58,6 +61,7 @@ monthlyTasks.forEach(function(task) {
 annualTasks = of.tasksWithContext('Annual')
 annualTasks.forEach(function(task) {
     dueDate = task.dueDate()
+    if (dueDate === null) return
     date = new Date
     if (dueDate.getFullYear() < date.getFullYear()) {
         date.setMonth(dueDate.getMonth())
