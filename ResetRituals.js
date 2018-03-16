@@ -12,7 +12,7 @@ dailyTasks.forEach(function(task) {
         date.setHours(task.dueDate().getHours())
         date.setMinutes(task.dueDate().getMinutes())
         task.dueDate = date
-        task.completed = false
+        task.markIncomplete()
     }
 })
 
@@ -39,7 +39,7 @@ weeklyTasks.forEach(function(task) {
         date.setHours(dueDate.getHours())
         date.setMinutes(dueDate.getMinutes())
         task.dueDate = date
-        task.completed = false
+        task.markIncomplete()
     }
 })
 
@@ -54,7 +54,7 @@ monthlyTasks.forEach(function(task) {
         date.setHours(dueDate.getHours())
         date.setMinutes(dueDate.getMinutes())
         task.dueDate = date
-        task.completed = false
+        task.markIncomplete()
     }
 })
 
@@ -69,6 +69,6 @@ annualTasks.forEach(function(task) {
         date.setHours(dueDate.getHours())
         date.setMinutes(dueDate.getMinutes())
         task.dueDate = date
-        task.completed = false
+        task.markIncomplete()
     }
 })

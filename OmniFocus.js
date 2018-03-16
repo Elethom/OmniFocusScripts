@@ -7,7 +7,11 @@ function tasksWithContext(contextName) {
 
 function setCompleted(tasks, completed) {
     tasks.forEach(function (task) {
-        task.completed = completed
+        if (completed) {
+            task.markComplete()
+        } else {
+            task.markIncomplete()
+        }
     })
 }
 
